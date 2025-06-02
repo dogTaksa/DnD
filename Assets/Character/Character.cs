@@ -11,32 +11,29 @@ public class Character : MonoBehaviour
 
     [Header("Main Properties")]
     public string characterName;
-    public string characterClass; //TODO: data's type 'CharacterClass' 
+    public CharacterClass characterClass; //TODO: data's type 'CharacterClass' 
     public string characterSubclass; //should be included by switch-case to 'CharacterClass' 
-    public string creatureType;
+    public GameLogic.CreatureType creatureType;
     [Space]
-    [Range(1, 30)]
-    public int level;
-    [Min(0)]
-    public int XP;
-    [Min(0)]
-    public int armorClass;
+    [Range(1, 30)] public int level;
+    [Min(0)] public int XP;
+    [Min(0)] public int armorClass;
 
     [Header("Hit Points")]
-    public int maxHitPoints;
-    public int currentHitPoints;
-    public int temporaryHitPoints;
+    [Min(0)] public int maxHitPoints;
+    [Min(0)] public int currentHitPoints;
+    [Min(0)] public int temporaryHitPoints;
 
     [Header("Hit Dices")]
-    public string maxHitDice; //TODO: dice as class
-    public string currentHitDice; //TODO: dice as class
+    [Tooltip("{count: diceType}")]public SeveralDices maxHitDices;
+    [Tooltip("{count: diceType}")]public SeveralDices currentHitDices;
 
     [Header("Other")]
     public int proficiencyBonus;
     public int passivePerception; //NOT INCLUDE PROFICIENCY IN SKILL 'PERCEPTION'
     public int initiativeModifier;
     public Speed speed;
-    public string size;
+    public GameLogic.Size size;
 
     [Space]
     public StatBlock stats;
@@ -50,6 +47,7 @@ public class Character : MonoBehaviour
     private int intMod;
     private int wisMod;
     private int chaMod;
+
 
     //Unity's functions
 
@@ -73,6 +71,9 @@ public class Character : MonoBehaviour
         //Setup other props
         level = CalculateLevelByXP();
         SetupStatBlock();
+
+        maxHitDices.diceType = characterClass.hitDiceType;
+        currentHitDices.diceType = maxHitDices.diceType;
     }
 
     void Update()
@@ -201,7 +202,7 @@ public class Character : MonoBehaviour
     //Custom functions - Other - LevelUp management
     public void LevelUp()
     {
-        //TODO: implement new level options.
+        //TODO: implement new level benefits.
     }
     public void ReachEpicLevel(int epicLevel)
     {
@@ -232,6 +233,7 @@ public struct StatBlock
     public SingleStat Charisma;
 }
 
+[Serializable]
 public struct Speed
 {
     public int walkingSpeed;

@@ -436,7 +436,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1692211914}
   - component: {fileID: 1692211916}
-  - component: {fileID: 1692211915}
+  - component: {fileID: 1692211917}
   m_Layer: 0
   m_Name: TestCharacter
   m_TagString: Untagged
@@ -459,53 +459,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1692211915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1692211912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 875b88036128ea843815a34e386de70f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterName: 
-  characterClass: 
-  characterSubclass: 
-  creatureType: 
-  level: 1
-  XP: 3614
-  armorClass: 0
-  maxHitPoints: 0
-  currentHitPoints: 0
-  temporaryHitPoints: 0
-  maxHitDice: 
-  currentHitDice: 
-  proficiencyBonus: 0
-  passivePerception: 0
-  initiativeModifier: 0
-  size: 
-  stats:
-    Strength:
-      score: 20
-      modifier: 0
-    Dexterity:
-      score: 20
-      modifier: 0
-    Constitution:
-      score: 20
-      modifier: 0
-    Intelligence:
-      score: 20
-      modifier: 0
-    Wisdom:
-      score: 20
-      modifier: 0
-    Charisma:
-      score: 30
-      modifier: 0
 --- !u!114 &1692211916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,40 +472,65 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: 
-  characterClass: 
+  characterClass: {fileID: 1692211917}
   characterSubclass: 
-  creatureType: 
-  level: 1
-  XP: 35000
+  creatureType: 9
+  level: 15
+  XP: 0
   armorClass: 0
   maxHitPoints: 0
   currentHitPoints: 0
   temporaryHitPoints: 0
-  maxHitDice: 
-  currentHitDice: 
-  proficiencyBonus: 0
+  maxHitDices:
+    count: 0
+    diceType: 0
+  currentHitDices:
+    count: 0
+    diceType: 0
+  proficiencyBonus: 5
   passivePerception: 0
   initiativeModifier: 0
-  size: 
+  speed:
+    walkingSpeed: 0
+    swimmingSpeed: 0
+    burrowingSpeed: 0
+    flyingSpeed: 0
+  size: 5
   stats:
     Strength:
-      score: 30
+      score: 0
       modifier: 0
     Dexterity:
-      score: 30
+      score: 0
       modifier: 0
     Constitution:
-      score: 30
+      score: 0
       modifier: 0
     Intelligence:
-      score: 30
+      score: 0
       modifier: 0
     Wisdom:
-      score: 30
+      score: 0
       modifier: 0
     Charisma:
-      score: 30
+      score: 0
       modifier: 0
+--- !u!114 &1692211917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692211912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a98868ec3ada0c6448a33ad03f7bd524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: 
+  MainStat: 
+  hitDiceType: 0
+  character: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
