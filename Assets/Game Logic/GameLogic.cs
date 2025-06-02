@@ -29,25 +29,6 @@ public class GameLogic : MonoBehaviour
         
         return result;
     }
-    //Not only character's so invented here
-    [Serializable]
-    public enum CreatureType
-    {
-        Aberration,
-        Beast,
-        Celestial,
-        Construct,
-        Dragon,
-        Elemental,
-        Fey,
-        Fiend,
-        Giant,
-        Humanoid,
-        Monstrosity,
-        Ooze,
-        Plant,
-        Undead,
-    }
 
     //Other tools
     [Serializable]
@@ -62,6 +43,7 @@ public class GameLogic : MonoBehaviour
         d100 = 100,
     }
 
+    //Not only character's so invented here
 
     /// <summary>
     /// 'Tiny' is not compared to the ft. count (2.5 ft)
@@ -96,5 +78,28 @@ public struct SeveralDices
     public string DicesToString(SeveralDices dicePrompt)
     {
         return $"{dicePrompt.count}d{diceType.ToString()}";
+    }
+}
+
+[Serializable]
+public struct AbilitiesCastingTime
+{
+    public bool OneAction;
+    public bool OneBonusAction;
+    [Tooltip("Time in minutes")][Min(0)] public int Time;
+
+    public AbilitiesCastingTime(bool isBonusAction = false, int timeByMinutes = 0)
+    {
+        if (timeByMinutes == 0)
+        {
+            OneAction = !isBonusAction;
+        }
+        else
+        {
+            OneAction = false;
+        }
+        
+        OneBonusAction = isBonusAction;
+        Time = timeByMinutes;
     }
 }

@@ -13,7 +13,7 @@ public class Character : MonoBehaviour
     public string characterName;
     public CharacterClass characterClass; //TODO: data's type 'CharacterClass' 
     public string characterSubclass; //should be included by switch-case to 'CharacterClass' 
-    public GameLogic.CreatureType creatureType;
+    public CreatureType creatureType;
     [Space]
     [Range(1, 30)] public int level;
     [Min(0)] public int XP;
@@ -25,8 +25,8 @@ public class Character : MonoBehaviour
     [Min(0)] public int temporaryHitPoints;
 
     [Header("Hit Dices")]
-    [Tooltip("{count: diceType}")]public SeveralDices maxHitDices;
-    [Tooltip("{count: diceType}")]public SeveralDices currentHitDices;
+    [Tooltip("{count: diceType}")] public SeveralDices maxHitDices;
+    [Tooltip("{count: diceType}")] public SeveralDices currentHitDices;
 
     [Header("Other")]
     public int proficiencyBonus;
@@ -74,11 +74,6 @@ public class Character : MonoBehaviour
 
         maxHitDices.diceType = characterClass.hitDiceType;
         currentHitDices.diceType = maxHitDices.diceType;
-    }
-
-    void Update()
-    {
-        
     }
 
     //Custom functions
@@ -207,6 +202,60 @@ public class Character : MonoBehaviour
     public void ReachEpicLevel(int epicLevel)
     {
         level = epicLevel;
+    }
+
+    //Enums
+    [Serializable]
+    public enum CreatureType
+    {
+        Aberration,
+        Beast,
+        Celestial,
+        Construct,
+        Dragon,
+        Elemental,
+        Fey,
+        Fiend,
+        Giant,
+        Humanoid,
+        Monstrosity,
+        Ooze,
+        Plant,
+        Undead,
+    }
+
+    [Serializable]
+    public enum ActionTypes
+    {
+        Attack,
+        Magic,
+        Dash,
+        Disengage,  //Позволяет переместиться, не провоцируя opportunity attacks
+        Dodge,  //Все атаки против тебя проходят с disadvantage, ты получаешь advantage на спасброски Ловкости.
+        Help,  //Даёт союзнику advantage на проверку характеристики или атаку.
+        Hide,
+        Ready,  //TODO: Add triggers (enum?)
+        Search,
+        UseAnObject,
+    }
+
+    [Serializable]
+    public enum Conditions  //TODO: ConditionsManager
+    {
+        Blinded,
+        Charmed,
+        Deafened,
+        Frightened,
+        Grappled,
+        Incapacitated,
+        Invisible,
+        Paralyzed,
+        Petrified,
+        Poisoned,
+        Prone,
+        Restrained,
+        Stunned,
+        Unconscious,
     }
 }
 

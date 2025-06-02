@@ -435,8 +435,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1692211914}
-  - component: {fileID: 1692211916}
   - component: {fileID: 1692211917}
+  - component: {fileID: 1692211916}
   m_Layer: 0
   m_Name: TestCharacter
   m_TagString: Untagged
@@ -491,7 +491,7 @@ MonoBehaviour:
   passivePerception: 0
   initiativeModifier: 0
   speed:
-    walkingSpeed: 0
+    walkingSpeed: 30
     swimmingSpeed: 0
     burrowingSpeed: 0
     flyingSpeed: 0
@@ -530,7 +530,7 @@ MonoBehaviour:
   Name: 
   MainStat: 
   hitDiceType: 0
-  character: {fileID: 0}
+  character: {fileID: 1692211916}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

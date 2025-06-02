@@ -16,4 +16,6 @@ public class Wizard : CharacterClass
         character = GetComponent<Character>();
         level = character.level;
     }
+
+    //public void 
 }
