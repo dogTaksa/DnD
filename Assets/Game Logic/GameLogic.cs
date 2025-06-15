@@ -15,9 +15,9 @@ public delegate void AbilitySetup();
 public class GameLogic : MonoBehaviour
 {
     //Functions
-    public static int d20()
+    public static bool d20(int difficulty)
     {
-        return (int)Mathf.Floor(Random.Range(1, 21));
+        return (int)Mathf.Floor(Random.Range(1, 21)) >= difficulty;
     }
     public static int RollDice(SeveralDices dicePrompt)   //"4d6", "5d20", "100d10"
     {
@@ -26,7 +26,7 @@ public class GameLogic : MonoBehaviour
         {
             result += (int)Mathf.Floor(Random.Range(1, (int)dicePrompt.diceType+1));
         }
-        
+
         return result;
     }
 
@@ -68,16 +68,51 @@ public struct SeveralDices
     [Min(1)]public int count;
     public GameLogic.Dice diceType;
 
-    public void StringToDices(string dicePrompt)
+    public SeveralDices(int count, GameLogic.Dice diceType)
     {
-        var data = dicePrompt.Split('d');
-        count = Convert.ToInt32(data[0]);
-        diceType = (GameLogic.Dice)Convert.ToInt32(data[1]);
+        this.count = count;
+        this.diceType = diceType;
     }
 
-    public string DicesToString(SeveralDices dicePrompt)
+    public static SeveralDices StringToDices(string dicePrompt)
     {
-        return $"{dicePrompt.count}d{diceType.ToString()}";
+        var data = dicePrompt.Split('d');
+        var result = new SeveralDices();
+
+        result.count = Convert.ToInt32(data[0]);
+        result.diceType = (GameLogic.Dice)Convert.ToInt32(data[1]);
+
+        return result;
+    }
+
+    public static string DicesToString(SeveralDices dicePrompt)
+    {
+        return $"{dicePrompt.count}d{dicePrompt.diceType}";
+    }
+}
+
+
+[Serializable]
+public struct InGameTime
+{
+    public enum TimeScales
+    {
+        Round,
+        Minute,
+        Hour,
+        Week,
+        Month,
+        Year,
+        UntilDispelling
+    }
+
+    public int time;
+    public TimeScales timeScale;
+
+    public InGameTime(int time, TimeScales timeScale)
+    {
+        this.time = time;
+        this.timeScale = timeScale;
     }
 }
 
@@ -86,11 +121,11 @@ public struct AbilitiesCastingTime
 {
     public bool OneAction;
     public bool OneBonusAction;
-    [Tooltip("Time in minutes")][Min(0)] public int Time;
+    [Min(0)] public InGameTime Time;
 
-    public AbilitiesCastingTime(bool isBonusAction = false, int timeByMinutes = 0)
+    public AbilitiesCastingTime(InGameTime time, bool isBonusAction = false)
     {
-        if (timeByMinutes == 0)
+        if (time.time == 0)
         {
             OneAction = !isBonusAction;
         }
@@ -100,6 +135,6 @@ public struct AbilitiesCastingTime
         }
         
         OneBonusAction = isBonusAction;
-        Time = timeByMinutes;
+        Time = time;
     }
 }

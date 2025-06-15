@@ -32,8 +32,14 @@ public class Character : MonoBehaviour
     public int proficiencyBonus;
     public int passivePerception; //NOT INCLUDE PROFICIENCY IN SKILL 'PERCEPTION'
     public int initiativeModifier;
+    public int initiativeRoll;
     public Speed speed;
     public GameLogic.Size size;
+    public int mainStatMod;
+    public Character player;
+    public GameObject gameOverScreen;
+    public GameObject canvas;
+    public CameraController cameraController;
 
     [Space]
     public StatBlock stats;
@@ -73,7 +79,61 @@ public class Character : MonoBehaviour
         SetupStatBlock();
 
         maxHitDices.diceType = characterClass.hitDiceType;
-        currentHitDices.diceType = maxHitDices.diceType;
+        maxHitDices.count = level;
+        currentHitDices = maxHitDices;
+
+        maxHitPoints = GameLogic.RollDice(maxHitDices);
+        currentHitPoints = maxHitPoints;
+
+        //Main stat's modifier
+        switch (characterClass.MainStat)
+        {
+            case StatType.Strength:
+                mainStatMod = stats.Strength.modifier;
+                break;
+            case StatType.Dextirity:
+                mainStatMod = stats.Dexterity.modifier;
+                break;
+            case StatType.Constitution:
+                mainStatMod = stats.Constitution.modifier;
+                break;
+            case StatType.Intelligence:
+                mainStatMod = stats.Intelligence.modifier;
+                break;
+            case StatType.Wisdom:
+                mainStatMod = stats.Wisdom.modifier;
+                break;
+            case StatType.Charisma:
+                mainStatMod = stats.Charisma.modifier;
+                break;
+        }
+    }
+
+    private void Update()
+    {
+        if (maxHitPoints < currentHitPoints)
+        {
+            currentHitPoints = maxHitPoints;
+        }
+
+        if (currentHitPoints <= 0)
+        {
+            if (!gameObject.CompareTag("Player"))
+            {
+                GameManager.instance.enemiesDestroyed++;
+                GameManager.instance.battle = false;
+                player.LevelUp();
+
+                Destroy(gameObject);
+            }
+            else
+            {
+                gameOverScreen.SetActive(true);
+                canvas.SetActive(false);
+                Destroy(cameraController);
+                Destroy(gameObject);
+            }
+        }
     }
 
     //Custom functions
@@ -191,17 +251,22 @@ public class Character : MonoBehaviour
     {
         initiativeModifier = dexMod;
         passivePerception = 10 + wisMod;
-
     }
 
     //Custom functions - Other - LevelUp management
     public void LevelUp()
     {
-        //TODO: implement new level benefits.
+        maxHitPoints += GameLogic.RollDice(SeveralDices.StringToDices($"1{characterClass.hitDiceType.ToString()}"));
     }
     public void ReachEpicLevel(int epicLevel)
     {
         level = epicLevel;
+    }
+
+    //Custom functions - Battle
+    public void RollForInitiative()
+    {
+        initiativeRoll = GameLogic.RollDice(SeveralDices.StringToDices("1d20")) + initiativeModifier;
     }
 
     //Enums
@@ -259,11 +324,24 @@ public class Character : MonoBehaviour
     }
 }
 
+
+[Serializable]
+public enum StatType
+{
+    Strength,
+    Dextirity,
+    Constitution,
+    Intelligence,
+    Wisdom,
+    Charisma,
+}
+
 [Serializable]
 public struct SingleStat
 {
     public int score;
     public int modifier;
+    public StatType type;
 
     public void FillModifier()
     {

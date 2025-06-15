@@ -15,7 +15,13 @@ public class Wizard : CharacterClass
     {
         character = GetComponent<Character>();
         level = character.level;
+        MainStat = StatType.Intelligence;
+
+        //levelAbilityPairs.Add(1, SpellCasting);
     }
 
-    //public void 
+    public void SpellCasting()
+    {
+        character.AddComponent<Magic>();
+    }
 }
