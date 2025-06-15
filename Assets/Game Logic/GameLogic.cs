@@ -19,7 +19,7 @@ public class GameLogic : MonoBehaviour
     {
         return (int)Mathf.Floor(Random.Range(1, 21)) >= difficulty;
     }
-    public static int RollDice(SeveralDices dicePrompt)   //"4d6", "5d20", "100d10"
+    public static int RollDice(SeveralDices dicePrompt)   //"4d6", "5d20", "100d10"  
     {
         var result = 0; 
         for (int i = 0; i < dicePrompt.count; i++)
